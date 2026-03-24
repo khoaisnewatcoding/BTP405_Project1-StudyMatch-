@@ -51,14 +51,14 @@ Built with Python and Flask, StudyMatch aims to make it easier for students to f
 
 ---
 
-## 🗓️ Timeline
+## 🗓️ Sprint Timeline
 
-| Week | Member 1 (Back End) | Member 2 (Front End) | Member 3 (DB / DevOps) |
-|------|---------------------|----------------------|------------------------|
-| **Week 1** | Flask project setup, auth routes | Base template, onboarding screens | MongoDB Atlas setup, collection schema |
-| **Week 2** | Swipe & match logic (PyMongo) | Swipe card UI with DaisyUI | DB integration, image storage |
-| **Week 3** | Route testing & bug fixes | Connect templates to back end routes | Deployment setup |
-| **Week 4** | Final review & bug fixes | UI polish & responsive tweaks | Final deployment, README polish |
+| Sprint | Member 1 (Back End) | Member 2 (Front End) | Member 3 (DB / DevOps) |
+|--------|---------------------|----------------------|------------------------|
+| **Sprint 1** *(Setup)* | User stories, repo setup, architecture diagrams | User stories, wireframes, UI mockups | User stories, DB schema diagram, backlog setup |
+| **Sprint 2** *(Build)* | Flask project setup, auth routes | Base template, onboarding screens | MongoDB Atlas setup, collection schema |
+| **Sprint 3** *(Core Features)* | Swipe & match logic (PyMongo) | Swipe card UI with DaisyUI | DB integration, image storage |
+| **Sprint 4** *(Polish & Deploy)* | Route testing & bug fixes, final review | Connect templates to back end, UI polish | Deployment setup, final deploy, README polish |
 
 ---
 
