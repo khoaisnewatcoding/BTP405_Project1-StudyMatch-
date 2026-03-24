@@ -1,4 +1,4 @@
-# 📚 StudyMatch
+# StudyMatch
 
 StudyMatch is a web application that helps students find study partners. Inspired by the swipe mechanic of dating apps, students can create a profile listing their courses, availability, and study preferences. They then browse other students' profiles and swipe right to connect or left to pass. When two students both swipe right on each other, they are matched and can plan to study together.
 
@@ -6,7 +6,7 @@ Built with Python and Flask, StudyMatch aims to make it easier for students to f
 
 ---
 
-# 👥 Team & Task Division
+# Team & Task Division
 
 **StudyMatch** — a Tinder-style swipe app that connects students who want to study together.
 
@@ -14,7 +14,7 @@ Built with Python and Flask, StudyMatch aims to make it easier for students to f
 
 ---
 
-## 🧑‍💻 Roles
+## Roles
 
 | Member | Role | Focus Area |
 |--------|------|------------|
@@ -24,7 +24,7 @@ Built with Python and Flask, StudyMatch aims to make it easier for students to f
 
 ---
 
-## 📋 Task Breakdown
+## Task Breakdown
 
 ### Member 1 — Back End (API & Logic)
 - Set up Flask project structure
@@ -51,7 +51,7 @@ Built with Python and Flask, StudyMatch aims to make it easier for students to f
 
 ---
 
-## 🗓️ Sprint Timeline
+## Sprint Timeline
 
 | Sprint | Member 1 (Back End) | Member 2 (Front End) | Member 3 (DB / DevOps) |
 |--------|---------------------|----------------------|------------------------|
@@ -62,7 +62,7 @@ Built with Python and Flask, StudyMatch aims to make it easier for students to f
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Layer | Technology |
 |-------|------------|
