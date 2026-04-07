@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}Profile Setup · StudyMatch{% endblock %}
+
+{% block content %}
+  <div class="grid gap-10 lg:grid-cols-[2fr_1fr]">
+    <section class="space-y-6">
+      <div class="rounded-[2rem] bg-gradient-to-r from-primary/90 via-secondary to-secondary/90 text-white shadow-2xl p-8 border border-primary/10">
+        <span class="badge badge-lg badge-primary/20 text-black">Profile setup</span>
+        <h2 class="mt-4 text-4xl font-bold text-black/90">Create your study profile</h2>
+        <p class="mt-4 max-w-2xl text-black/90 leading-relaxed">Share your course load, availability, and study preferences so StudyMatch can surface better study partners for you.</p>
+      </div>
+
+      <form method="POST" class="rounded-[2rem] bg-white/95 shadow-2xl p-8 space-y-6 border border-base-200">
+        <div class="grid gap-4 md:grid-cols-2">
+          <label class="input-group input-group-vertical">
+            <span>Name</span>
+            <input type="text" name="name" placeholder="Your name" class="input input-bordered w-full" required />
+          </label>
+          <label class="input-group input-group-vertical">
+            <span>Email</span>
+            <input type="email" name="email" placeholder="you@example.com" class="input input-bordered w-full" required />
+          </label>
+        </div>
+
+        <div class="grid gap-4 md:grid-cols-2">
+          <label class="input-group input-group-vertical">
+            <span>Major</span>
+            <input type="text" name="major" placeholder="e.g. Computer Science" class="input input-bordered w-full" />
+          </label>
+          <label class="input-group input-group-vertical">
+            <span>Preferred study style</span>
+            <select name="study_style" class="select select-bordered w-full">
+              <option>Focused problem solving</option>
+              <option>Group discussion</option>
+              <option>Flashcards / quizzes</option>
+              <option>Exam prep</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="grid gap-4 md:grid-cols-2">
+          <label class="input-group input-group-vertical">
+            <span>Courses</span>
+            <input type="text" name="courses" placeholder="CS101, MATH231, STAT210" class="input input-bordered w-full" />
+          </label>
+          <label class="input-group input-group-vertical">
+            <span>Availability</span>
+            <input type="text" name="availability" placeholder="Mon/Wed 6-8pm" class="input input-bordered w-full" />
+          </label>
+        </div>
+
+        <label class="input-group input-group-vertical">
+          <span>Study goals</span>
+          <textarea name="bio" placeholder="What are you aiming to improve?" class="textarea textarea-bordered w-full" rows="4"></textarea>
+        </label>
+
+        <label class="input-group input-group-vertical">
+          <span>Profile photo URL</span>
+          <input type="url" name="photo_url" placeholder="https://..." class="input input-bordered w-full" />
+        </label>
+
+        <button type="submit" class="btn btn-primary btn-block">Save profile</button>
+      </form>
+    </section>
+
+    <aside class="space-y-6">
+      <div class="rounded-[2rem] bg-secondary/10 p-6 shadow-lg border border-secondary/20">
+        <h3 class="text-2xl font-semibold text-secondary">What we need</h3>
+        <ul class="mt-4 space-y-3 text-base-content/80 list-disc list-inside">
+          <li>Core courses and subjects</li>
+          <li>Availability windows</li>
+          <li>Preferred study format</li>
+          <li>Profile picture or avatar</li>
+        </ul>
+      </div>
+      <div class="rounded-[2rem] bg-white/95 p-6 shadow-lg border border-base-200">
+        <h3 class="text-2xl font-semibold">Why it matters</h3>
+        <p class="mt-3 text-base-content/80 leading-relaxed">Complete profiles help StudyMatch find better, faster matches with classmates who share your goals and schedule.</p>
+      </div>
+    </aside>
+  </div>
+{% endblock %}

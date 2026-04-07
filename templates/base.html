@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}StudyMatch{% endblock %}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/daisyui@3.2.0/dist/full.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
+      },
+      plugins: [daisyui],
+      daisyui: {
+        themes: [{
+          studymatch: {
+            primary: '#6366f1',
+            'primary-focus': '#4f46e5',
+            secondary: '#38bdf8',
+            'secondary-focus': '#0ea5e9',
+            accent: '#22c55e',
+            'accent-focus': '#16a34a',
+            neutral: '#1f2937',
+            'base-100': '#ffffff',
+            info: '#38bdf8',
+            success: '#22c55e',
+            warning: '#f59e0b',
+            error: '#ef4444',
+            'base-content': '#0f172a',
+          },
+        }]},
+    }
+  </script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-primary/10 via-base-100 to-secondary/10 text-base-content">
+  <div class="min-h-screen flex flex-col">
+    <header class="navbar sticky top-0 z-40 bg-white/85 backdrop-blur-md border-b border-base-200 shadow-sm">
+      <div class="flex-1 px-6 py-4">
+        <a href="{{ url_for('home') }}" class="font-bold text-xl tracking-tight">StudyMatch</a>
+      </div>
+      <div class="flex-none px-6 py-4 space-x-2">
+        <a class="btn btn-ghost btn-sm" href="{{ url_for('profile_setup') }}">Profile</a>
+        <a class="btn btn-ghost btn-sm" href="{{ url_for('match_deck') }}">Swipe</a>
+        <a class="btn btn-ghost btn-sm" href="{{ url_for('matches') }}">Matches</a>
+      </div>
+    </header>
+
+    <main class="flex-1 py-10">
+      <div class="max-w-6xl mx-auto px-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <div class="space-y-4 mb-6">
+              {% for category, message in messages %}
+                <div class="alert alert-info shadow-lg">
+                  <div>
+                    <span>{{ message }}</span>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+      </div>
+    </main>
+
+    <footer class="footer footer-center p-6 bg-base-200 text-base-content border-t border-base-300">
+      <div>
+        <p class="text-sm">StudyMatch prototype · Front-end scaffold</p>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
