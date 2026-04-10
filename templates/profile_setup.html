@@ -15,26 +15,27 @@
         <div class="grid gap-4 md:grid-cols-2">
           <label class="input-group input-group-vertical">
             <span>Name</span>
-            <input type="text" name="name" placeholder="Your name" class="input input-bordered w-full" required />
+            <input type="text" name="name" placeholder="Your name" class="input input-bordered w-full" value="{{ profile.name or '' }}" required />
           </label>
           <label class="input-group input-group-vertical">
             <span>Email</span>
-            <input type="email" name="email" placeholder="you@example.com" class="input input-bordered w-full" required />
+            <input type="email" name="email" placeholder="you@example.com" class="input input-bordered w-full" value="{{ profile.email or current_user.email }}" required />
           </label>
         </div>
 
         <div class="grid gap-4 md:grid-cols-2">
           <label class="input-group input-group-vertical">
             <span>Major</span>
-            <input type="text" name="major" placeholder="e.g. Computer Science" class="input input-bordered w-full" />
+            <input type="text" name="major" placeholder="e.g. Computer Science" class="input input-bordered w-full" value="{{ profile.major or '' }}" />
           </label>
           <label class="input-group input-group-vertical">
             <span>Preferred study style</span>
             <select name="study_style" class="select select-bordered w-full">
-              <option>Focused problem solving</option>
-              <option>Group discussion</option>
-              <option>Flashcards / quizzes</option>
-              <option>Exam prep</option>
+              {% set selected_style = profile.study_style or 'Focused problem solving' %}
+              <option {% if selected_style == 'Focused problem solving' %}selected{% endif %}>Focused problem solving</option>
+              <option {% if selected_style == 'Group discussion' %}selected{% endif %}>Group discussion</option>
+              <option {% if selected_style == 'Flashcards / quizzes' %}selected{% endif %}>Flashcards / quizzes</option>
+              <option {% if selected_style == 'Exam prep' %}selected{% endif %}>Exam prep</option>
             </select>
           </label>
         </div>
@@ -42,22 +43,22 @@
         <div class="grid gap-4 md:grid-cols-2">
           <label class="input-group input-group-vertical">
             <span>Courses</span>
-            <input type="text" name="courses" placeholder="CS101, MATH231, STAT210" class="input input-bordered w-full" />
+            <input type="text" name="courses" placeholder="CS101, MATH231, STAT210" class="input input-bordered w-full" value="{{ profile.courses | join(', ') if profile.courses else '' }}" />
           </label>
           <label class="input-group input-group-vertical">
             <span>Availability</span>
-            <input type="text" name="availability" placeholder="Mon/Wed 6-8pm" class="input input-bordered w-full" />
+            <input type="text" name="availability" placeholder="Mon/Wed 6-8pm" class="input input-bordered w-full" value="{{ profile.availability or '' }}" />
           </label>
         </div>
 
         <label class="input-group input-group-vertical">
           <span>Study goals</span>
-          <textarea name="bio" placeholder="What are you aiming to improve?" class="textarea textarea-bordered w-full" rows="4"></textarea>
+          <textarea name="bio" placeholder="What are you aiming to improve?" class="textarea textarea-bordered w-full" rows="4">{{ profile.bio or '' }}</textarea>
         </label>
 
         <label class="input-group input-group-vertical">
           <span>Profile photo URL</span>
-          <input type="url" name="photo_url" placeholder="https://..." class="input input-bordered w-full" />
+          <input type="url" name="photo_url" placeholder="https://..." class="input input-bordered w-full" value="{{ profile.photo_url or '' }}" />
         </label>
 
         <button type="submit" class="btn btn-primary btn-block">Save profile</button>
