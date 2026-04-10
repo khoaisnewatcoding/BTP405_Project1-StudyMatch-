@@ -11,26 +11,26 @@
         <p class="mt-4 max-w-2xl text-black/90 leading-relaxed">Share your course load, availability, and study preferences so StudyMatch can surface better study partners for you.</p>
       </div>
 
-      <form method="POST" class="rounded-[2rem] bg-white/95 shadow-2xl p-8 space-y-6 border border-base-200">
+      <form method="POST" class="rounded-[2rem] bg-white shadow-2xl p-8 space-y-6 border border-slate-200 text-slate-900">
         <div class="grid gap-4 md:grid-cols-2">
           <label class="input-group input-group-vertical">
-            <span>Name</span>
-            <input type="text" name="name" placeholder="Your name" class="input input-bordered w-full" value="{{ profile.name or '' }}" required />
+            <span class="mb-2 text-sm font-medium text-slate-700">Name</span>
+            <input type="text" name="name" placeholder="Your name" class="input input-bordered w-full border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:border-primary focus:outline-none" value="{{ profile.name or '' }}" required />
           </label>
           <label class="input-group input-group-vertical">
-            <span>Email</span>
-            <input type="email" name="email" placeholder="you@example.com" class="input input-bordered w-full" value="{{ profile.email or current_user.email }}" required />
+            <span class="mb-2 text-sm font-medium text-slate-700">Email</span>
+            <input type="email" name="email" placeholder="you@example.com" class="input input-bordered w-full border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:border-primary focus:outline-none" value="{{ profile.email or current_user.email }}" required />
           </label>
         </div>
 
         <div class="grid gap-4 md:grid-cols-2">
           <label class="input-group input-group-vertical">
-            <span>Major</span>
-            <input type="text" name="major" placeholder="e.g. Computer Science" class="input input-bordered w-full" value="{{ profile.major or '' }}" />
+            <span class="mb-2 text-sm font-medium text-slate-700">Major</span>
+            <input type="text" name="major" placeholder="e.g. Computer Science" class="input input-bordered w-full border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:border-primary focus:outline-none" value="{{ profile.major or '' }}" />
           </label>
           <label class="input-group input-group-vertical">
-            <span>Preferred study style</span>
-            <select name="study_style" class="select select-bordered w-full">
+            <span class="mb-2 text-sm font-medium text-slate-700">Preferred study style</span>
+            <select name="study_style" class="select select-bordered w-full border-slate-300 bg-white text-slate-900 focus:border-primary focus:outline-none">
               {% set selected_style = profile.study_style or 'Focused problem solving' %}
               <option {% if selected_style == 'Focused problem solving' %}selected{% endif %}>Focused problem solving</option>
               <option {% if selected_style == 'Group discussion' %}selected{% endif %}>Group discussion</option>
@@ -42,23 +42,23 @@
 
         <div class="grid gap-4 md:grid-cols-2">
           <label class="input-group input-group-vertical">
-            <span>Courses</span>
-            <input type="text" name="courses" placeholder="CS101, MATH231, STAT210" class="input input-bordered w-full" value="{{ profile.courses | join(', ') if profile.courses else '' }}" />
+            <span class="mb-2 text-sm font-medium text-slate-700">Courses</span>
+            <input type="text" name="courses" placeholder="CS101, MATH231, STAT210" class="input input-bordered w-full border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:border-primary focus:outline-none" value="{{ profile.courses | join(', ') if profile.courses else '' }}" />
           </label>
           <label class="input-group input-group-vertical">
-            <span>Availability</span>
-            <input type="text" name="availability" placeholder="Mon/Wed 6-8pm" class="input input-bordered w-full" value="{{ profile.availability or '' }}" />
+            <span class="mb-2 text-sm font-medium text-slate-700">Availability</span>
+            <input type="text" name="availability" placeholder="Mon/Wed 6-8pm" class="input input-bordered w-full border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:border-primary focus:outline-none" value="{{ profile.availability or '' }}" />
           </label>
         </div>
 
         <label class="input-group input-group-vertical">
-          <span>Study goals</span>
-          <textarea name="bio" placeholder="What are you aiming to improve?" class="textarea textarea-bordered w-full" rows="4">{{ profile.bio or '' }}</textarea>
+          <span class="mb-2 text-sm font-medium text-slate-700">Study goals</span>
+          <textarea name="bio" placeholder="What are you aiming to improve?" class="textarea textarea-bordered w-full border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:border-primary focus:outline-none" rows="4">{{ profile.bio or '' }}</textarea>
         </label>
 
         <label class="input-group input-group-vertical">
-          <span>Profile photo URL</span>
-          <input type="url" name="photo_url" placeholder="https://..." class="input input-bordered w-full" value="{{ profile.photo_url or '' }}" />
+          <span class="mb-2 text-sm font-medium text-slate-700">Profile photo URL</span>
+          <input type="url" name="photo_url" placeholder="https://..." class="input input-bordered w-full border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:border-primary focus:outline-none" value="{{ profile.photo_url or '' }}" />
         </label>
 
         <button type="submit" class="btn btn-primary btn-block">Save profile</button>

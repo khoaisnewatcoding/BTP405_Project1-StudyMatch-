@@ -37,6 +37,28 @@
       },
     }
   </script>
+  <style>
+    .input,
+    .select,
+    .textarea {
+      background-color: #ffffff;
+      color: #0f172a;
+      border-color: #cbd5e1;
+    }
+
+    .input::placeholder,
+    .textarea::placeholder {
+      color: #94a3b8;
+    }
+
+    .input:focus,
+    .select:focus,
+    .textarea:focus {
+      outline: none;
+      border-color: #6366f1;
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+    }
+  </style>
 </head>
 <body class="min-h-screen bg-gradient-to-br from-primary/10 via-base-100 to-secondary/10 text-base-content">
   <div class="min-h-screen flex flex-col">
