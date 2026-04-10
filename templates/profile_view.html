@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Profile · StudyMatch{% endblock %}
+
+{% block content %}
+  <section class="max-w-4xl mx-auto space-y-8">
+    <div class="rounded-[2rem] bg-white shadow-2xl p-8 border border-base-200">
+      <div class="flex flex-col gap-8 md:flex-row md:items-center">
+        <div class="avatar placeholder">
+          {% if profile.photo_url %}
+            <div class="rounded-full w-28 h-28 overflow-hidden shadow-lg">
+              <img src="{{ profile.photo_url }}" alt="{{ profile.name }}" class="w-full h-full object-cover" />
+            </div>
+          {% else %}
+            <div class="bg-primary text-primary-content rounded-full w-28 h-28 flex items-center justify-center text-4xl shadow-lg">{{ profile.name[0] }}</div>
+          {% endif %}
+        </div>
+
+        <div class="flex-1 space-y-4">
+          <div class="flex flex-wrap items-center gap-3">
+            <h1 class="text-4xl font-bold">{{ profile.name }}</h1>
+            {% if is_owner %}
+              <span class="badge badge-primary badge-lg">Your profile</span>
+            {% endif %}
+          </div>
+          <p class="text-lg text-base-content/70">{{ profile.major }}</p>
+          <div class="flex flex-wrap gap-3">
+            <span class="badge badge-secondary badge-outline">{{ profile.study_style }}</span>
+            <span class="badge badge-accent badge-outline">{{ profile.availability }}</span>
+          </div>
+          <p class="text-base-content/80 leading-relaxed">{{ profile.bio }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid gap-6 md:grid-cols-2">
+      <div class="rounded-[2rem] bg-base-100 shadow-lg p-6 border border-base-200">
+        <h2 class="text-2xl font-semibold">Courses</h2>
+        <div class="mt-4 flex flex-wrap gap-2">
+          {% for course in profile.courses %}
+            <span class="badge badge-secondary badge-outline badge-lg">{{ course }}</span>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="rounded-[2rem] bg-base-100 shadow-lg p-6 border border-base-200">
+        <h2 class="text-2xl font-semibold">Contact</h2>
+        <p class="mt-4 text-base-content/80">{{ profile.email }}</p>
+        <div class="mt-6 flex flex-wrap gap-3">
+          {% if is_owner %}
+            <a href="{{ url_for('profile_setup') }}" class="btn btn-primary">Edit profile</a>
+          {% else %}
+            <a href="mailto:{{ profile.email }}?subject=StudyMatch%20session%20idea" class="btn btn-secondary">Send message</a>
+          {% endif %}
+          <a href="{{ url_for('matches') }}" class="btn btn-ghost">Back to matches</a>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

@@ -8,49 +8,160 @@
       <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
           <h2 class="text-3xl font-bold">Study deck</h2>
-          <p class="text-base-content/75 mt-2">Browse students who match your course interests and availability. Connect with study partners in just a few taps.</p>
+          <p class="text-base-content/75 mt-2">Swipe right to connect, swipe left to pass. The deck now behaves like a real matching flow instead of a static card browser.</p>
         </div>
         <a href="{{ url_for('matches') }}" class="btn btn-outline btn-secondary">View matches</a>
       </div>
     </div>
 
-    <div class="max-w-4xl mx-auto">
-      <div id="profile-card" class="rounded-[2rem] bg-white shadow-2xl p-8 border border-base-200">
-        <div class="flex flex-col gap-6 md:flex-row md:items-center">
-          <div class="avatar placeholder">
-            <div id="profile-avatar" class="bg-primary-focus text-primary-content rounded-full w-24 h-24 flex items-center justify-center text-3xl shadow-lg">A</div>
+    <style>
+      .deck-stage {
+        position: relative;
+        min-height: 28rem;
+        perspective: 1200px;
+        padding-bottom: 0.5rem;
+      }
+
+      .swipe-card {
+        position: absolute;
+        inset: 0;
+        transition: transform 0.28s ease, opacity 0.28s ease, box-shadow 0.28s ease;
+        will-change: transform, opacity;
+        touch-action: pan-y;
+        -webkit-user-select: none;
+        user-select: none;
+      }
+
+      .swipe-card.dragging {
+        transition: none;
+        cursor: grabbing;
+      }
+
+      .swipe-card.back-card {
+        transform: translateY(0.75rem) scale(0.965);
+        opacity: 0.82;
+      }
+
+      .swipe-card.exiting-left {
+        transform: translateX(-140%) rotate(-18deg);
+        opacity: 0;
+      }
+
+      .swipe-card.exiting-right {
+        transform: translateX(140%) rotate(18deg);
+        opacity: 0;
+      }
+
+      .swipe-badge {
+        position: absolute;
+        top: 1.5rem;
+        padding: 0.5rem 1rem;
+        border-radius: 9999px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        border-width: 2px;
+        opacity: 0;
+        transition: opacity 0.18s ease;
+        pointer-events: none;
+      }
+
+      .swipe-badge.pass {
+        left: 1.5rem;
+        color: #dc2626;
+        border-color: #dc2626;
+        background: rgba(254, 242, 242, 0.92);
+      }
+
+      .swipe-badge.connect {
+        right: 1.5rem;
+        color: #15803d;
+        border-color: #15803d;
+        background: rgba(240, 253, 244, 0.92);
+      }
+
+      @media (max-width: 767px) {
+        .deck-stage {
+          min-height: 33rem;
+        }
+
+        .swipe-card {
+          border-radius: 1.5rem;
+        }
+
+        .swipe-badge {
+          top: 1rem;
+          font-size: 0.875rem;
+        }
+
+        #profile-card,
+        #back-card {
+          padding: 1rem;
+        }
+      }
+    </style>
+
+    <div class="max-w-4xl mx-auto space-y-6">
+      <div class="deck-stage">
+        <div id="back-card" class="swipe-card back-card rounded-[2rem] bg-white shadow-xl p-6 border border-base-200 hidden">
+          <div class="flex flex-col gap-4 md:flex-row md:items-center">
+            <div class="avatar placeholder">
+              <div id="back-avatar" class="bg-secondary text-secondary-content rounded-full w-20 h-20 flex items-center justify-center text-2xl shadow-lg overflow-hidden">B</div>
+            </div>
+            <div class="flex-1 space-y-3">
+              <div class="badge badge-outline">Up next</div>
+              <h3 id="back-name" class="text-2xl font-bold">Name</h3>
+              <p id="back-major" class="text-base-content/70">Major</p>
+              <div class="grid gap-3 sm:grid-cols-2 mt-4">
+                <div id="back-courses" class="badge badge-secondary badge-outline">Courses</div>
+                <div id="back-availability" class="badge badge-accent badge-outline">Availability</div>
+              </div>
+              <p id="back-bio" class="mt-3 text-sm text-base-content/75 leading-relaxed">Profile description will appear here.</p>
+            </div>
           </div>
-          <div class="flex-1 space-y-3">
-            <div class="flex items-center gap-3">
-              <div class="badge badge-primary badge-lg">Now viewing</div>
-              <div id="profile-count" class="text-sm text-base-content/70">1 of {{ cards|length }}</div>
+        </div>
+
+        <div id="profile-card" class="swipe-card rounded-[2rem] bg-white shadow-2xl p-6 border border-base-200 cursor-grab select-none">
+          <div class="swipe-badge pass" id="passBadge">PASS</div>
+          <div class="swipe-badge connect" id="connectBadge">CONNECT</div>
+          <div class="flex flex-col gap-4 md:flex-row md:items-center">
+            <div class="avatar placeholder">
+              <div id="profile-avatar" class="bg-primary-focus text-primary-content rounded-full w-20 h-20 flex items-center justify-center text-2xl shadow-lg overflow-hidden">A</div>
             </div>
-            <h3 id="profile-name" class="text-3xl font-bold">Name</h3>
-            <p id="profile-major" class="text-base-content/70 text-lg">Major</p>
-            <div class="grid gap-3 sm:grid-cols-2 mt-4">
-              <div id="profile-courses" class="badge badge-secondary badge-outline">Courses</div>
-              <div id="profile-availability" class="badge badge-accent badge-outline">Availability</div>
+            <div class="flex-1 space-y-3">
+              <div class="flex items-center gap-3">
+                <div class="badge badge-primary badge-lg">Now viewing</div>
+                <div id="profile-count" class="text-sm text-base-content/70">1 of {{ cards|length }}</div>
+              </div>
+              <h3 id="profile-name" class="text-2xl font-bold">Name</h3>
+              <p id="profile-major" class="text-base-content/70">Major</p>
+              <div class="grid gap-2 sm:grid-cols-2 mt-3">
+                <div id="profile-courses" class="badge badge-secondary badge-outline">Courses</div>
+                <div id="profile-availability" class="badge badge-accent badge-outline">Availability</div>
+              </div>
+              <p id="profile-bio" class="mt-3 text-sm text-base-content/80 leading-relaxed">Profile description will appear here.</p>
             </div>
-            <p id="profile-bio" class="mt-4 text-base-content/80 leading-relaxed">Profile description will appear here.</p>
           </div>
         </div>
       </div>
-
-      <div class="flex flex-col gap-4 sm:flex-row items-center justify-center mt-8">
-        <button id="passButton" class="btn btn-outline btn-error btn-lg w-full sm:w-44">Pass</button>
-        <button id="likeButton" class="btn btn-primary btn-lg w-full sm:w-44">Connect</button>
+      <div id="matchNotice" class="alert alert-success shadow-lg mt-6 hidden">
+        <div>
+          <span id="matchNoticeText"></span>
+        </div>
       </div>
-    </div>
-
-    <div class="rounded-[2rem] bg-base-100 border border-base-200 shadow-lg p-6">
-      <h3 class="text-xl font-semibold">How it works</h3>
-      <p class="mt-2 text-base-content/75 leading-relaxed">Choose Connect for profiles that fit your study goals. Use Pass to skip profiles you don't want, and review your matches anytime on the Matches page.</p>
     </div>
 
     <script>
       const cards = {{ cards | tojson | safe }};
       let currentIndex = 0;
+      let dragStartX = 0;
+      let dragDeltaX = 0;
+      let activePointerId = null;
+      let isDragging = false;
+      let isSubmitting = false;
+      const swipeThreshold = 110;
 
+      const profileCard = document.getElementById('profile-card');
+      const backCard = document.getElementById('back-card');
       const avatar = document.getElementById('profile-avatar');
       const nameEl = document.getElementById('profile-name');
       const majorEl = document.getElementById('profile-major');
@@ -58,20 +169,92 @@
       const availabilityEl = document.getElementById('profile-availability');
       const bioEl = document.getElementById('profile-bio');
       const countEl = document.getElementById('profile-count');
+      const passBadge = document.getElementById('passBadge');
+      const connectBadge = document.getElementById('connectBadge');
+      const backAvatar = document.getElementById('back-avatar');
+      const backName = document.getElementById('back-name');
+      const backMajor = document.getElementById('back-major');
+      const backCourses = document.getElementById('back-courses');
+      const backAvailability = document.getElementById('back-availability');
+      const backBio = document.getElementById('back-bio');
+      const matchNotice = document.getElementById('matchNotice');
+      const matchNoticeText = document.getElementById('matchNoticeText');
+
+      function setAvatarContent(target, card, fallbackLetter, colorClass) {
+        if (!card) {
+          target.className = colorClass + ' rounded-full w-24 h-24 flex items-center justify-center text-3xl shadow-lg overflow-hidden';
+          target.textContent = fallbackLetter;
+          return;
+        }
+
+        if (card.photo_url) {
+          target.className = 'rounded-full w-24 h-24 shadow-lg overflow-hidden';
+          target.innerHTML = '<img src="' + card.photo_url + '" alt="' + card.name + '" class="w-full h-full object-cover" />';
+          return;
+        }
+
+        target.className = colorClass + ' rounded-full w-24 h-24 flex items-center justify-center text-3xl shadow-lg overflow-hidden';
+        target.textContent = card.name.charAt(0).toUpperCase();
+      }
+
+      function renderBackCard(index) {
+        const nextCard = cards[index + 1];
+        if (!nextCard) {
+          backCard.classList.add('hidden');
+          return;
+        }
+
+        backCard.classList.remove('hidden');
+        setAvatarContent(backAvatar, nextCard, 'N', 'bg-secondary text-secondary-content');
+        backName.textContent = nextCard.name;
+        backMajor.textContent = nextCard.major;
+        backCourses.textContent = nextCard.courses.join(', ');
+        backAvailability.textContent = nextCard.availability;
+        backBio.textContent = nextCard.bio;
+      }
+
+      function resetCardPosition() {
+        dragDeltaX = 0;
+        profileCard.style.transform = '';
+        profileCard.classList.remove('dragging');
+        passBadge.style.opacity = '0';
+        connectBadge.style.opacity = '0';
+      }
+
+      function updateCardTransform(deltaX) {
+        const rotation = deltaX * 0.08;
+        profileCard.style.transform = 'translateX(' + deltaX + 'px) rotate(' + rotation + 'deg)';
+
+        if (deltaX < 0) {
+          passBadge.style.opacity = String(Math.min(Math.abs(deltaX) / swipeThreshold, 1));
+          connectBadge.style.opacity = '0';
+        } else {
+          connectBadge.style.opacity = String(Math.min(Math.abs(deltaX) / swipeThreshold, 1));
+          passBadge.style.opacity = '0';
+        }
+      }
 
       function renderCard(index) {
         const card = cards[index];
         if (!card) {
-          avatar.textContent = '🎓';
+          resetCardPosition();
+          backCard.classList.add('hidden');
+          setAvatarContent(avatar, null, 'S', 'bg-primary-focus text-primary-content');
           nameEl.textContent = 'No more profiles';
           majorEl.textContent = '';
           coursesEl.textContent = 'You have seen all available profiles.';
           availabilityEl.textContent = '';
           bioEl.textContent = 'Return later to discover new study partners.';
           countEl.textContent = '0 of ' + cards.length;
+          profileCard.classList.remove('cursor-grab');
           return;
         }
-        avatar.textContent = card.name.charAt(0).toUpperCase();
+
+        profileCard.classList.remove('exiting-left', 'exiting-right');
+        resetCardPosition();
+        renderBackCard(index);
+        profileCard.classList.add('cursor-grab');
+        setAvatarContent(avatar, card, 'S', 'bg-primary-focus text-primary-content');
         nameEl.textContent = card.name;
         majorEl.textContent = card.major;
         coursesEl.textContent = card.courses.join(', ');
@@ -85,11 +268,106 @@
         renderCard(currentIndex);
       }
 
-      document.getElementById('passButton').addEventListener('click', nextCard);
-      document.getElementById('likeButton').addEventListener('click', () => {
-        alert('You liked this profile!');
-        nextCard();
-      });
+      function finishSwipe(action) {
+        const exitingClass = action === 'like' ? 'exiting-right' : 'exiting-left';
+        profileCard.classList.add(exitingClass);
+
+        window.setTimeout(async () => {
+          await submitSwipe(action, true);
+        }, 220);
+      }
+
+      function beginDrag(event) {
+        if (isSubmitting || !cards[currentIndex]) {
+          return;
+        }
+
+        activePointerId = event.pointerId;
+        dragStartX = event.clientX;
+        dragDeltaX = 0;
+        isDragging = true;
+        profileCard.classList.add('dragging');
+        profileCard.setPointerCapture(activePointerId);
+      }
+
+      function moveDrag(event) {
+        if (!isDragging || event.pointerId !== activePointerId) {
+          return;
+        }
+
+        dragDeltaX = event.clientX - dragStartX;
+        updateCardTransform(dragDeltaX);
+      }
+
+      function endDrag(event) {
+        if (!isDragging || event.pointerId !== activePointerId) {
+          return;
+        }
+
+        isDragging = false;
+        profileCard.classList.remove('dragging');
+        profileCard.releasePointerCapture(activePointerId);
+        activePointerId = null;
+
+        if (dragDeltaX <= -swipeThreshold) {
+          finishSwipe('pass');
+          return;
+        }
+
+        if (dragDeltaX >= swipeThreshold) {
+          finishSwipe('like');
+          return;
+        }
+
+        resetCardPosition();
+      }
+
+      async function submitSwipe(action, advanceAfterSubmit = false) {
+        const card = cards[currentIndex];
+        if (!card || isSubmitting) {
+          return;
+        }
+
+        isSubmitting = true;
+        profileCard.classList.remove('cursor-grab');
+        matchNotice.classList.add('hidden');
+
+        try {
+          const response = await fetch('/api/swipe/' + card.user_id, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ action }),
+          });
+          const result = await response.json();
+          if (!response.ok) {
+            alert(result.message || 'Could not save your swipe.');
+            renderCard(currentIndex);
+            isSubmitting = false;
+            return;
+          }
+          if (result.matched) {
+            matchNoticeText.textContent = result.message;
+            matchNotice.classList.remove('hidden');
+          }
+          if (advanceAfterSubmit) {
+            nextCard();
+          }
+        } catch (error) {
+          alert('Could not reach the server. Please try again.');
+          renderCard(currentIndex);
+          isSubmitting = false;
+          return;
+        }
+
+        isSubmitting = false;
+      }
+
+      profileCard.addEventListener('pointerdown', beginDrag);
+      profileCard.addEventListener('pointermove', moveDrag);
+      profileCard.addEventListener('pointerup', endDrag);
+      profileCard.addEventListener('pointercancel', endDrag);
 
       renderCard(currentIndex);
     </script>

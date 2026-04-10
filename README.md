@@ -73,3 +73,115 @@ Built with Python and Flask, StudyMatch aims to make it easier for students to f
 | **Auth** | Flask-Login / Flask session |
 | **Deployment** | Render / Railway |
 | **Version Control** | Git + GitHub |
+
+---
+
+## Backend Status
+
+The backend logic is now implemented in the Flask app with MongoDB integration.
+
+### Implemented features
+
+- User registration with hashed passwords
+- Login and logout using Flask session state
+- MongoDB persistence for users, profiles, swipes, and matches
+- Profile setup and profile editing flow
+- Swipe submission through a JSON API endpoint
+- Mutual-like matching logic with persisted match records
+- Matches page populated from stored MongoDB data
+- Public profile view route for matched users
+
+### MongoDB collections used
+
+- `users`: account credentials and primary email
+- `profiles`: study profile data tied to each user
+- `swipes`: like/pass decisions between users
+- `matches`: stored mutual matches between two users
+
+### Main routes
+
+- `GET /`: landing page
+- `GET, POST /register`: account creation
+- `GET, POST /login`: account login
+- `POST /logout`: account logout
+- `GET /profile`: current user profile
+- `GET, POST /profile-setup`: create or edit study profile
+- `GET /swipe`: ranked study deck
+- `POST /api/swipe/<target_user_id>`: save a like or pass
+- `GET /matches`: list current matches
+- `GET /profiles/<user_id>`: view another student's profile
+
+---
+
+## Local Setup
+
+1. Install dependencies:
+
+	`python -m pip install -r requirements.txt`
+
+2. Create a `.env` file or update the existing one with:
+
+	- `MONGODB_URI` or `MONGO_URI`
+	- `MONGODB_DB`
+	- `STUDYMATCH_SECRET_KEY`
+
+3. Run the app:
+
+	`python app.py`
+
+4. Open the Flask server in your browser and use the sign-up flow before browsing the study deck.
+
+5. Optional: seed realistic demo users for presentations or manual testing:
+
+	`python seed_demo_data.py`
+
+	Default seeded password: `Password123`
+
+---
+
+## Notes
+
+- The app expects a valid MongoDB Atlas connection string.
+- Passwords are stored as hashes, not plain text.
+- Profiles must be completed before a user can swipe or view matches.
+
+---
+
+## Deploy To Render
+
+This project is now set up to deploy cleanly to Render.
+
+### Option 1: Use `render.yaml`
+
+1. Push this repository to GitHub.
+2. In Render, choose **New +** and then **Blueprint**.
+3. Select this repository.
+4. Render will detect [render.yaml](render.yaml).
+5. Set the missing environment variable:
+	- `MONGO_URI` = your MongoDB Atlas connection string
+6. Deploy the service.
+
+### Option 2: Create the web service manually
+
+Use these settings in Render:
+
+- **Environment**: `Python`
+- **Build Command**: `pip install -r requirements.txt`
+- **Start Command**: `gunicorn app:app`
+
+### Required environment variables
+
+- `MONGO_URI`
+- `MONGODB_DB`
+- `STUDYMATCH_SECRET_KEY`
+
+### Recommended values
+
+- `MONGODB_DB=studymatch`
+- `STUDYMATCH_SECRET_KEY=<long-random-secret>`
+
+### After deploy
+
+1. Open the deployed URL.
+2. Register a user or seed demo data locally first if you want the database pre-populated.
+3. Verify login, profile setup, swipe deck, and matches.

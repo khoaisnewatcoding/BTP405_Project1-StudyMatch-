@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Log In · StudyMatch{% endblock %}
+
+{% block content %}
+  <section class="max-w-5xl mx-auto grid gap-8 lg:grid-cols-[1.05fr_0.95fr] items-start">
+    <div class="rounded-[2rem] bg-gradient-to-br from-primary/90 via-primary/70 to-secondary/70 text-white shadow-2xl p-8 md:p-10 border border-primary/10">
+      <span class="badge badge-lg bg-white/15 text-white border-white/10">Welcome back</span>
+      <h1 class="mt-5 text-4xl font-bold leading-tight">Pick up where your last study session left off.</h1>
+      <p class="mt-4 text-white/85 leading-relaxed">Log in to review your study deck, maintain your profile, and keep up with new mutual matches.</p>
+      <div class="mt-8 grid gap-4 sm:grid-cols-2">
+        <div class="rounded-3xl bg-white/10 p-5 border border-white/10">
+          <h2 class="text-xl font-semibold">Live profile data</h2>
+          <p class="mt-2 text-sm text-white/80">All account, profile, and swipe activity is stored in MongoDB.</p>
+        </div>
+        <div class="rounded-3xl bg-white/10 p-5 border border-white/10">
+          <h2 class="text-xl font-semibold">Mutual matches</h2>
+          <p class="mt-2 text-sm text-white/80">Matches are created automatically when two students connect.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="rounded-[2rem] bg-white/95 shadow-2xl p-8 border border-base-200">
+      <h2 class="text-3xl font-bold">Log in</h2>
+      <p class="mt-2 text-base-content/75">Use your StudyMatch email and password.</p>
+
+      <form method="POST" class="mt-8 space-y-5">
+        <label class="input-group input-group-vertical">
+          <span>Email</span>
+          <input type="email" name="email" placeholder="you@example.com" class="input input-bordered w-full" value="{{ form_data.get('email', '') if form_data else '' }}" required />
+        </label>
+
+        <label class="input-group input-group-vertical">
+          <span>Password</span>
+          <input type="password" name="password" placeholder="Your password" class="input input-bordered w-full" required />
+        </label>
+
+        <button type="submit" class="btn btn-primary btn-block">Log in</button>
+      </form>
+
+      <p class="mt-6 text-sm text-base-content/70">Need an account? <a href="{{ url_for('register') }}" class="link link-primary">Create one here</a>.</p>
+    </div>
+  </section>
+{% endblock %}

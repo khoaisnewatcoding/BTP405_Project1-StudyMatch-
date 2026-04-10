@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Create Account · StudyMatch{% endblock %}
+
+{% block content %}
+  <section class="max-w-5xl mx-auto grid gap-8 lg:grid-cols-[0.95fr_1.05fr] items-start">
+    <div class="rounded-[2rem] bg-white/95 shadow-2xl p-8 border border-base-200 order-2 lg:order-1">
+      <h2 class="text-3xl font-bold">Create your account</h2>
+      <p class="mt-2 text-base-content/75">Start with a secure account, then complete your study profile.</p>
+
+      <form method="POST" class="mt-8 space-y-5">
+        <label class="input-group input-group-vertical">
+          <span>Name</span>
+          <input type="text" name="name" placeholder="Your name" class="input input-bordered w-full" value="{{ form_data.get('name', '') if form_data else '' }}" required />
+        </label>
+
+        <label class="input-group input-group-vertical">
+          <span>Email</span>
+          <input type="email" name="email" placeholder="you@example.com" class="input input-bordered w-full" value="{{ form_data.get('email', '') if form_data else '' }}" required />
+        </label>
+
+        <div class="grid gap-4 md:grid-cols-2">
+          <label class="input-group input-group-vertical">
+            <span>Password</span>
+            <input type="password" name="password" placeholder="At least 8 characters" class="input input-bordered w-full" required />
+          </label>
+
+          <label class="input-group input-group-vertical">
+            <span>Confirm password</span>
+            <input type="password" name="confirm_password" placeholder="Repeat your password" class="input input-bordered w-full" required />
+          </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">Create account</button>
+      </form>
+
+      <p class="mt-6 text-sm text-base-content/70">Already registered? <a href="{{ url_for('login') }}" class="link link-primary">Log in here</a>.</p>
+    </div>
+
+    <div class="rounded-[2rem] bg-gradient-to-br from-secondary/90 via-accent/80 to-primary/70 text-black shadow-2xl p-8 md:p-10 border border-secondary/10 order-1 lg:order-2">
+      <span class="badge badge-lg bg-white/40 border-white/20">Account flow</span>
+      <h1 class="mt-5 text-4xl font-bold leading-tight text-black/90">Create an account, complete a profile, then start matching.</h1>
+      <div class="mt-8 space-y-4">
+        <div class="rounded-3xl bg-white/60 p-5 border border-white/30">
+          <h2 class="text-xl font-semibold">1. Register</h2>
+          <p class="mt-2 text-sm text-black/75">Your email and password become your StudyMatch login credentials.</p>
+        </div>
+        <div class="rounded-3xl bg-white/60 p-5 border border-white/30">
+          <h2 class="text-xl font-semibold">2. Complete your profile</h2>
+          <p class="mt-2 text-sm text-black/75">Add your courses, major, availability, and study preferences.</p>
+        </div>
+        <div class="rounded-3xl bg-white/60 p-5 border border-white/30">
+          <h2 class="text-xl font-semibold">3. Swipe to connect</h2>
+          <p class="mt-2 text-sm text-black/75">StudyMatch stores your swipes and creates a match when interest is mutual.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

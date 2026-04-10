@@ -12,9 +12,28 @@
           Create a profile, choose your availability and subjects, then browse classmates with matching study goals. When both students connect, you get a study match ready to collaborate.
         </p>
         <div class="flex flex-wrap gap-4">
-          <a class="btn btn-primary btn-lg" href="{{ url_for('profile_setup') }}">Set up profile</a>
-          <a class="btn btn-outline btn-lg" href="{{ url_for('match_deck') }}">Browse partners</a>
+          {% if current_user %}
+            <a class="btn btn-primary btn-lg" href="{{ url_for('profile_setup') }}">Update profile</a>
+            <a class="btn btn-outline btn-lg" href="{{ url_for('match_deck') }}">Browse partners</a>
+          {% else %}
+            <a class="btn btn-primary btn-lg" href="{{ url_for('register') }}">Create account</a>
+            <a class="btn btn-outline btn-lg" href="{{ url_for('login') }}">Log in</a>
+          {% endif %}
         </div>
+        {% if current_user %}
+          <div class="stats shadow bg-base-100 border border-base-200">
+            <div class="stat">
+              <div class="stat-title">Account</div>
+              <div class="stat-value text-2xl">{{ current_profile.name or current_user.name }}</div>
+              <div class="stat-desc">{{ current_user.email }}</div>
+            </div>
+            <div class="stat">
+              <div class="stat-title">Matches</div>
+              <div class="stat-value text-2xl">{{ match_count }}</div>
+              <div class="stat-desc">Mutual study connections</div>
+            </div>
+          </div>
+        {% endif %}
       </div>
 
       <div class="grid gap-4 sm:grid-cols-2">
